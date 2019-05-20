@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-// import {Switch, Route} from "react-router-dom";
 
 
 const MagicButton = (props) => {
+    // const [bColor, setBColor] = useState('');
+    
+    // // const setGreen = useCallback(() => setBColor('green'), [bColor]);
+    // // const setRed = useCallback(() => setBColor('red'), [bColor]);
+    // const setColor = useCallback(() => setBColor(props.length < 4 ? 'red' : 'green'), [props.length]);
+    
+    //setColor();
+
     return (
-        <button style={{color: props.bColor}}>{props.bColor}</button>
+        <button style={{ color: props.color}}>{props.color}</button>
     );
 }
 
@@ -16,16 +23,14 @@ const Login = (props) => {
         event.preventDefault();
         setText(event.target.value);
     }
-    
-    
 
     return (
         <form>
-            <input 
+            <input
                 placeholder="Name"
                 onChange={event => changeLabel(event)}
             />
-            <MagicButton bColor={text.length < 4 ? 'red' : 'green'}/>
+            <MagicButton color={text.length < 4 ? 'red' : 'green'} />
             <p>{text}</p>
         </form>
     )
