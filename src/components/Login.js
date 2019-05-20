@@ -17,11 +17,21 @@ const MagicButton = (props) => {
 
 
 const Login = (props) => {
-    const [text, setText] = useState('')
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
 
     const changeLabel = (event) => {
         event.preventDefault();
-        setText(event.target.value);
+        setName(event.target.value);
+    }
+
+    const changePass = (event) => {
+        event.preventDefault();
+        setPassword(event.target.value);
+    }
+
+    const sendLoginInfo = () => {
+               
     }
 
     return (
@@ -30,8 +40,16 @@ const Login = (props) => {
                 placeholder="Name"
                 onChange={event => changeLabel(event)}
             />
-            <MagicButton color={text.length < 4 ? 'red' : 'green'} />
-            <p>{text}</p>
+            <br/>
+            <input
+                placeholder="Password"
+                onChange={event => changePass(event)}
+            />
+            <MagicButton 
+                color={name.length < 4 ? 'red' : 'green'}
+                onClick
+            />            
+            <br/>
         </form>
     )
 }
