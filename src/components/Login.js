@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AuthService from './AuthService';
 
 
 const MagicButton = (props) => {
     // const [bColor, setBColor] = useState('');
-    
+
     // // const setGreen = useCallback(() => setBColor('green'), [bColor]);
     // // const setRed = useCallback(() => setBColor('red'), [bColor]);
     // const setColor = useCallback(() => setBColor(props.length < 4 ? 'red' : 'green'), [props.length]);
-    
+
     //setColor();
 
     return (
-        <button style={{ color: props.color}}>{props.color}</button>
+        <button
+            type="submit"
+            style={{ color: props.color }}
+            onClick={event => props.onClick(event)}
+        >
+            {props.color}
+        </button>
     );
 }
 
@@ -19,6 +26,16 @@ const MagicButton = (props) => {
 const Login = (props) => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
+
+    useEffect(() => {
+        return () => { //works when component IS GOING to rerender
+            if (Auth.loggedIn()) {
+                return props.history.replace('/');
+            };
+        }
+    });
+
+    const Auth = new AuthService();
 
     const changeLabel = (event) => {
         event.preventDefault();
@@ -30,8 +47,15 @@ const Login = (props) => {
         setPassword(event.target.value);
     }
 
-    const sendLoginInfo = () => {
-               
+    const sendLoginInfo = async (event) => {
+        event.preventDefault();
+
+        try {
+            const query = await Auth.login(name, password)
+        }
+        catch (error) {
+            alert(error);
+        }
     }
 
     return (
@@ -40,16 +64,16 @@ const Login = (props) => {
                 placeholder="Name"
                 onChange={event => changeLabel(event)}
             />
-            <br/>
+            <br />
             <input
                 placeholder="Password"
                 onChange={event => changePass(event)}
             />
-            <MagicButton 
+            <MagicButton
                 color={name.length < 4 ? 'red' : 'green'}
-                onClick
-            />            
-            <br/>
+                onClick={sendLoginInfo}
+            />
+            <br />
         </form>
     )
 }
