@@ -10,8 +10,8 @@ class AuthService {
         const resp = await this.fetchData(`${this.domain}`, {
             method: 'POST',
             body: JSON.stringify({
-                "Username": username,
-                "Password": password
+                username,
+                password
             })
         });
         console.log(resp);
@@ -39,7 +39,7 @@ class AuthService {
     }
 
     setToken = (username, idToken) => {
-        localStorage.setItem('user',{username: idToken})
+        localStorage.setItem('user',{username: username, tokens: idToken})
     }
 
     getToken = () => {
@@ -56,7 +56,7 @@ class AuthService {
 
     fetchData = async(url, options) => {
         const headers = {
-            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
         }
 
         if (this.loggedIn()) {

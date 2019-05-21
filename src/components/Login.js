@@ -11,13 +11,16 @@ const MagicButton = (props) => {
 
     //setColor();
 
+    const [text, setText] = useState('default')
+
+
     return (
         <button
             type="submit"
-            style={{ color: props.color }}
+            disabled={props.isDisabled}
             onClick={event => props.onClick(event)}
         >
-            {props.color}
+            {text}
         </button>
     );
 }
@@ -41,7 +44,7 @@ const Login = (props) => {
     const changeLabel = (event) => {
         event.preventDefault();
         setName(event.target.value);
-    }
+    } 
 
     const changePass = (event) => {
         event.preventDefault();
@@ -57,7 +60,7 @@ const Login = (props) => {
         <form>
             <input
                 placeholder="Name"
-                onChange={event => changeLabel(event)}
+                onChange={changeLabel}
             />
             <br />
             <input
@@ -65,7 +68,7 @@ const Login = (props) => {
                 onChange={event => changePass(event)}
             />
             <MagicButton
-                color={name.length < 4 ? 'red' : 'green'}
+                isDisabled={name.length < 4}
                 onClick={event => {sendLoginInfo(event); setStatus('waiting')}}
             />
             <br />
