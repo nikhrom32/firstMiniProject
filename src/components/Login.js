@@ -26,14 +26,15 @@ const MagicButton = (props) => {
 const Login = (props) => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
+    const [status, setStatus] = useState('Ready')
 
     useEffect(() => {
         return () => { //works when component IS GOING to rerender
             if (Auth.loggedIn()) {
-                return props.history.replace('/');
+                setStatus('logged In')
             };
         }
-    });
+    }, []);
 
     const Auth = new AuthService();
 
@@ -49,13 +50,7 @@ const Login = (props) => {
 
     const sendLoginInfo = async (event) => {
         event.preventDefault();
-
-        try {
-            const query = await Auth.login(name, password)
-        }
-        catch (error) {
-            alert(error);
-        }
+        Auth.login(name, password)
     }
 
     return (
@@ -71,9 +66,10 @@ const Login = (props) => {
             />
             <MagicButton
                 color={name.length < 4 ? 'red' : 'green'}
-                onClick={sendLoginInfo}
+                onClick={event => {sendLoginInfo(event); setStatus('waiting')}}
             />
             <br />
+            <p className="status">{status}</p>
         </form>
     )
 }

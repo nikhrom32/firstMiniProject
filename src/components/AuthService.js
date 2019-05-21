@@ -3,18 +3,19 @@ import decode from 'jwt-decode';
 
 class AuthService {
     constructor(domain) {
-        this.domain = domain || 'http://localhost:8000'
+        this.domain = domain || 'http://localhost:8000/api/token/'
     }
 
     login = async(username, password) => {
         const resp = await this.fetchData(`${this.domain}`, {
             method: 'POST',
             body: JSON.stringify({
-                username,
-                password
+                "Username": username,
+                "Password": password
             })
         });
-        this.setToken(resp.token);
+        console.log(resp);
+        this.setToken(username, resp.token);
         return Promise.resolve(resp);
     }
 
@@ -37,16 +38,16 @@ class AuthService {
         }
     }
 
-    setToken = (idToken) => {
-        localStorage.setItem('id_token', idToken)
+    setToken = (username, idToken) => {
+        localStorage.setItem('user',{username: idToken})
     }
 
     getToken = () => {
-        return localStorage.getItem('id_token')
+        return localStorage.getItem('user'.username)
     }
 
     logout = () => {
-        localStorage.removeItem('id_token')
+        localStorage.removeItem('user')
     }
 
     getProfile = () => {
@@ -55,18 +56,19 @@ class AuthService {
 
     fetchData = async(url, options) => {
         const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': 'application/json, text/plain, */*',
         }
 
         if (this.loggedIn()) {
             headers['Authorization'] = 'Bearer' + this.getToken()
         }
+        
 
         const resp = await fetch(url, {
             headers,
             ...options
         });
+        console.log('resp1');
         this._checkStatus(resp);
         return await resp.json();
     }
