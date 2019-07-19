@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import AuthService from './AuthService';
 
 
-const MagicButton = (props) => {
+
+interface MagicButtonProps {
+    isDisabled: boolean
+    onClick(event: MouseEvent): void
+}
+
+const MagicButton = (props: MagicButtonProps) => {
     // const [bColor, setBColor] = useState('');
 
     // // const setGreen = useCallback(() => setBColor('green'), [bColor]);
@@ -26,7 +32,7 @@ const MagicButton = (props) => {
 }
 
 
-const Login = (props) => {
+const Login = () => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [status, setStatus] = useState('Ready')
@@ -41,17 +47,17 @@ const Login = (props) => {
 
     const Auth = new AuthService();
 
-    const changeLabel = (event) => {
+    const changeLabel = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setName(event.target.value);
     } 
 
-    const changePass = (event) => {
+    const changePass = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setPassword(event.target.value);
     }
 
-    const sendLoginInfo = async (event) => {
+    const sendLoginInfo = async (event: MouseEvent) => {
         event.preventDefault();
         Auth.login(name, password)
     }
