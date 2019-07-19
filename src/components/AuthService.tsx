@@ -16,7 +16,7 @@ class AuthService {
             })
         });
         console.log(resp);
-        this.setToken(username, resp.token);
+        this.setToken(username, resp);
         return Promise.resolve(resp);
     }
 
@@ -45,12 +45,19 @@ class AuthService {
     }
 
     setToken = (username: string, idToken: string) => {
+        // console.log('test')
+        // console.log(idToken)
+        // console.log(JSON.stringify({username: username, tokens: idToken}))
         localStorage.setItem('user', JSON.stringify({username: username, tokens: idToken}))
     }
 
     getToken = () => {
         // console.log(JSON.parse(localStorage.getItem('user') as string).username)
-        return JSON.parse(localStorage.getItem('user') as string).username
+        const userInfo: string | null = localStorage.getItem('user') as string
+        if (userInfo !== null) 
+            return JSON.parse(localStorage.getItem('user') as string).username
+        else
+            return ''
     }
 
     logout = () => {

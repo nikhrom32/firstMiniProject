@@ -43,7 +43,7 @@ const Login = () => {
                 setStatus('logged In')
             };
         }
-    }, []);
+    }, [status]);
 
     const Auth = new AuthService();
 
