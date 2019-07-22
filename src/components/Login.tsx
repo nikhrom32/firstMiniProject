@@ -1,5 +1,6 @@
 import React, { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import AuthService from './AuthService';
+// import { Button } from 'antd'; 
 
 
 
@@ -59,7 +60,12 @@ const Login = () => {
 
     const sendLoginInfo = async (event: MouseEvent) => {
         event.preventDefault();
-        Auth.login(name, password)
+        if (password !== ''){
+            Auth.login(name, password)
+            setStatus('')
+        }
+        else
+            setStatus("Password can't be empty.")
     }
 
     return (
@@ -75,9 +81,10 @@ const Login = () => {
             />
             <MagicButton
                 isDisabled={name.length < 4}
-                onClick={event => {sendLoginInfo(event); setStatus('waiting')}}
+                onClick={event => {setStatus('waiting'); sendLoginInfo(event)}}
             />
             <br />
+            {/* <Button></Button> */}
             <p className="status">{status}</p>
         </form>
     )
