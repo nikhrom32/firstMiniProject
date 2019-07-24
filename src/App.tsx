@@ -1,7 +1,9 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
 import Login  from "./components/Login";
+import News from './components/news/News';
 
 function App() {
   return (
@@ -22,8 +24,14 @@ function App() {
     //   </header>
     // </div>
     
-
-    <Login/>
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' exact component={Login} />
+        <Route path='/news' exact component={News} />
+        <Redirect to='/' />
+      </Switch>
+    </BrowserRouter>
+    
   );
 }
 
