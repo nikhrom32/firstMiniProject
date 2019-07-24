@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
 import Login  from "./components/Login";
-import News from './components/News';
+import News from './components/news/News';
 
 function App() {
   return (
